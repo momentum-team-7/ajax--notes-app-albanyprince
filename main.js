@@ -10,14 +10,15 @@ const notesContainer = document.getElementById('notes-container')
 let form = document.querySelector('form');                         
 
 form.addEventListener('submit', event => {
-    const noteTitle = document.getElementsByClassName('note-title').value
+    const noteTitle = document.querySelector('.note-title').value
 
-    const noteTextBox = document.getElementsByClassName('notes-text-box').value  
+    const noteTextBox = document.querySelector('.note-text-box').value  
     
     createNote(noteTitle, noteTextBox)
+
 })       
 
-// notesContainer.addEventListener('click', (event) => {
+notesContainer.addEventListener('click', (event) => {
     if (event.target.classList.contains('edit')){
         editNote(event.target)
     }
@@ -47,15 +48,15 @@ fetch(url)
     })
 }
 
-function renderNoteItem(noteObj){
+function renderNoteItem(note){
     const noteEl = document.createElement('p')
-    noteEl.id = noteObj.id  
-    renderNoteText(noteEl, noteObj) 
+    noteEl.id = note.id  
+    renderNoteText(noteEl, note) 
     notesContainer.appendChild(noteEl)  
 } 
 
-function renderNoteText (noteEl, noteObj) {
-noteEl.innerHTML = `<p>${noteObj.body}</p>`
+function renderNoteText (noteEl, note) {
+noteEl.innerHTML = `<p>${note.body}</p>`
 }  
 
 function createNote (noteTitle, noteTextBox) {
@@ -65,7 +66,7 @@ function createNote (noteTitle, noteTextBox) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            title:noteTitle,
+            title: noteTitle,
             body: noteTextBox,
         })
     })
